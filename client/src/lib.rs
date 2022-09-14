@@ -215,6 +215,7 @@ impl Program {
                             signature: logs.value.signature.parse().unwrap(),
                             slot: logs.context.slot,
                         };
+                        println!("ctx: {:?}", ctx);
                         let mut logs = &logs.value.logs[..];
                         if !logs.is_empty() {
                             if let Ok(mut execution) = Execution::new(&mut logs) {
@@ -222,6 +223,7 @@ impl Program {
                                     // Parse the log.
                                     let (event, new_program, did_pop) = {
                                         if self_program_str == execution.program() {
+                                            println!("handle program log");
                                             handle_program_log(&self_program_str, l).unwrap_or_else(
                                                 |e| {
                                                     println!("Unable to parse log: {}", e);
@@ -229,12 +231,14 @@ impl Program {
                                                 },
                                             )
                                         } else {
+                                            println!("handle system log");
                                             let (program, did_pop) =
                                                 handle_system_log(&self_program_str, l);
                                             (None, program, did_pop)
                                         }
                                     };
                                     // Emit the event.
+                                    println!("is event valid: {}", event.is_some());
                                     if let Some(e) = event {
                                         f(&ctx, e);
                                     }
@@ -251,6 +255,7 @@ impl Program {
                         }
                     }
                     Err(_err) => {
+                        println!("recv error: {}", _err);
                         return;
                     }
                 }
