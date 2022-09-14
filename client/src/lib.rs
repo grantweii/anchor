@@ -200,8 +200,10 @@ impl Program {
         f: impl Fn(&EventContext, T) + Send + 'static,
     ) -> Result<EventHandle, ClientError> {
         let addresses = vec![self.program_id.to_string()];
+        println!("addresses {:?}", addresses);
         let filter = RpcTransactionLogsFilter::Mentions(addresses);
         let ws_url = self.cfg.cluster.ws_url().to_string();
+        println!("ws url {}", ws_url);
         let cfg = RpcTransactionLogsConfig {
             commitment: self.cfg.options,
         };
