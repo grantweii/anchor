@@ -223,6 +223,7 @@ impl Program {
                             if let Ok(mut execution) = Execution::new(&mut logs) {
                                 for l in logs {
                                     // Parse the log.
+                                    println!("log: {}", l);
                                     let (event, new_program, did_pop) = {
                                         if self_program_str == execution.program() {
                                             println!("handle program log");
