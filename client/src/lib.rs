@@ -209,6 +209,7 @@ impl Program {
         };
         let self_program_str = self.program_id.to_string();
         let (client, receiver) = PubsubClient::logs_subscribe(&ws_url, filter, cfg)?;
+        println!("logs subscribe should have worked");
         std::thread::spawn(move || {
             loop {
                 match receiver.recv() {
